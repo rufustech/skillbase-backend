@@ -9,6 +9,8 @@ require("dotenv").config();
 // const productRoute = require("./routes/productRoute");
 const userRoute = require("./routes/userRoute");
 const authRoute = require("./routes/authRoute");
+const courseRoutes = require("./routes/courseRoutes");
+const lessonRoutes = require("./routes/lessonRoutes");
 // const cartRoute = require("./routes/cartRoute");
 // const commentsRoute = require("./routes/commentsRoute");
 
@@ -32,6 +34,9 @@ mongoose
 // app.use("/api/products", productRoute);
 app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
+app.use("/api/courses", courseRoutes);
+app.use("/api/lessons", lessonRoutes);
+
 // app.use("/api/comments", commentsRoute);
 // app.use("/api/cart", cartRoute);
 

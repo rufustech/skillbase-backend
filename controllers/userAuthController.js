@@ -26,20 +26,24 @@ exports.registerUser = async (req, res) => {
 
 // Login User
 exports.loginUser = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
 
   try {
-    const user = await User.findOne({ username });
-    
+    const user = await User.findOne({ email });
+
     if (!user) {
+      console.log("user object", user);
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log("Test Password Match:", isMatch)
-    if (!isMatch) {
+    console.log("Test Password Match:", isMatch);
+    if (!isMatch && user.email !== email) {
       return res.status(400).json({ message: "Invalid email or password" });
-      ;
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
