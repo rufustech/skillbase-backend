@@ -36,7 +36,7 @@ mongoose
 app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/courses", courseRoutes);
-app.use("/api/lessons", lessonRoutes);
+app.use("/api/lessons", lessonRoutes);  // Only once
 app.use("/api/quiz", quizRoute);
 
 // app.use("/api/comments", commentsRoute);

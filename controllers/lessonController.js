@@ -5,7 +5,8 @@ const User = require("../models/userAuthModel");
 // Create a new lesson
 exports.createLesson = async (req, res) => {
   try {
-    const { title, content, courseId } = req.body;
+    const { title, content } = req.body;
+    const courseId = req.params.courseId;
 
     const course = await Course.findById(courseId);
     if (!course) {
@@ -39,6 +40,26 @@ exports.createLesson = async (req, res) => {
     });
   }
 };
+// Controller function to get lessons by course ID
+
+exports.getLessonsByCourseId = async (req, res) => {
+  const { courseId } = req.params;
+  console.log("Course ID:", courseId);  // Log the courseId to see if it's correct
+
+  try {
+    const course = await Course.findById(courseId).populate('lessons');
+    if (!course) {
+      return res.status(404).json({ success: false, message: 'Course not found' });
+    }
+    console.log("Lessons:", course.lessons);  // Log the populated lessons to verify they're correct
+    res.json({ success: true, data: course.lessons });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+
 
 // Get all lessons for a course
 exports.getLessons = async (req, res) => {
@@ -86,6 +107,8 @@ exports.getLessonById = async (req, res) => {
 exports.updateLesson = async (req, res) => {
   try {
     const { title, content } = req.body;
+    console.log("Lesson ID", req.params.id);
+    
     const lesson = await Lesson.findByIdAndUpdate(
       req.params.id,
       { title, content },
@@ -111,6 +134,24 @@ exports.updateLesson = async (req, res) => {
     });
   }
 };
+
+// Get all lessons (not specific to a course)
+exports.getAllLessons = async (req, res) => {
+  try {
+    const lessons = await Lesson.find().populate("completedBy");
+    res.status(200).json({
+      success: true,
+      data: lessons,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
 
 // Delete a lesson
 exports.deleteLesson = async (req, res) => {
