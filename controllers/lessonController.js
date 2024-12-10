@@ -3,59 +3,44 @@ const Course = require("../models/courseModel");
 const User = require("../models/userAuthModel");
 
 // Create a new lesson
+// Create a new lesson for a course
 exports.createLesson = async (req, res) => {
   try {
+    const { courseId } = req.params;
     const { title, content } = req.body;
-    const courseId = req.params.courseId;
 
     const course = await Course.findById(courseId);
     if (!course) {
-      return res.status(404).json({
-        success: false,
-        message: "Course not found",
-      });
+      return res.status(404).json({ success: false, message: "Course not found" });
     }
 
-    const newLesson = new Lesson({
-      title,
-      content,
-      course: courseId,
-    });
-
+    const newLesson = new Lesson({ title, content, course: courseId });
     await newLesson.save();
 
-    // Add the lesson to the course's lessons
     course.lessons.push(newLesson._id);
     await course.save();
 
-    res.status(201).json({
-      success: true,
-      data: newLesson,
-    });
+    res.status(201).json({ success: true, data: newLesson });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
+    console.error("Error creating lesson:", error);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
 // Controller function to get lessons by course ID
 
 exports.getLessonsByCourseId = async (req, res) => {
   const { courseId } = req.params;
-  console.log("Course ID:", courseId);  // Log the courseId to see if it's correct
 
   try {
-    const course = await Course.findById(courseId).populate('lessons');
+    const course = await Course.findById(courseId).populate('lessons').lean();
     if (!course) {
-      return res.status(404).json({ success: false, message: 'Course not found' });
+      return res.status(404).json({ success: false, message: "Course not found" });
     }
-    console.log("Lessons:", course.lessons);  // Log the populated lessons to verify they're correct
-    res.json({ success: true, data: course.lessons });
+
+    res.status(200).json({ success: true, data: course.lessons });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: 'Server error' });
+    console.error("Error fetching lessons for course:", error);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
