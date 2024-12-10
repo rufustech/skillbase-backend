@@ -2,14 +2,20 @@ const express = require('express');
 const router = express.Router();
 const lessonController = require('../controllers/lessonController');
 
-// Consolidated Lesson Routes
-router.post('/courses/:courseId/lessons', lessonController.createLesson); // Create lesson
-router.get('/courses/:courseId/lessons', lessonController.getLessonsByCourseId); // Get lessons by course ID
-router.get('/lessons/:id', lessonController.getLessonById); // Get lesson by ID
-router.put('/lessons/:id', lessonController.updateLesson); // Update lesson
+
+router.post('/courses/:courseId', lessonController.createLesson); 
+router.get('/courses/:courseId', lessonController.getLessonsByCourseId);  //is working now Yaay
+router.get('/:id', lessonController.getLessonById); 
+router.put('/:id', lessonController.updateLesson); // Update lesson
 router.delete('/lessons/:id', lessonController.deleteLesson); // Delete lesson
-router.get('/lessons', lessonController.getAllLessons); // Get all lessons
-router.post('/lessons/:lessonId/complete/:studentId', lessonController.markLessonCompleted); // Mark completed
+router.get('/', lessonController.getAllLessons); // Get all lessons
+router.post('/:lessonId/complete/:studentId', lessonController.markLessonCompleted); // Mark completed
+
+
+
+
+
+module.exports = router;
 
 
 
