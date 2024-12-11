@@ -5,7 +5,7 @@ const {
   loginUser,
   getCurrentUser,
 } = require("../controllers/userAuthController");
-const { protect } = require("../middleware/authMiddleware");
+const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -16,6 +16,6 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 // Get Current User (Protected Route)
-router.get("/current", getCurrentUser);
+router.get("/current",authMiddleware.protect, getCurrentUser);
 
 module.exports = router;
