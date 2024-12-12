@@ -7,14 +7,14 @@ const User = require("../models/userAuthModel");
 exports.createLesson = async (req, res) => {
   try {
     const { courseId } = req.params;
-    const { title, content } = req.body;
+    const { title, content, image } = req.body;
 
     const course = await Course.findById(courseId);
     if (!course) {
       return res.status(404).json({ success: false, message: "Course not found" });
     }
 
-    const newLesson = new Lesson({ title, content, course: courseId });
+    const newLesson = new Lesson({ title, content, image, course: courseId });
     await newLesson.save();
 
     course.lessons.push(newLesson._id);

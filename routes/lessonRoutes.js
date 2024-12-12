@@ -13,10 +13,4 @@ router.post('/:lessonId/complete/:studentId', lessonController.markLessonComplet
 
 
 
-
-
-module.exports = router;
-
-
-
 module.exports = router;
