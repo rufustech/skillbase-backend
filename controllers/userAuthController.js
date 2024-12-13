@@ -34,6 +34,7 @@ exports.loginUser = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
+    console.log(email);
 
     if (!user) {
       console.log("user object", user);
