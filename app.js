@@ -2,27 +2,26 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const morgan = require("morgan");
-
 require("dotenv").config();
 
-// API endpoints
-// const productRoute = require("./routes/productRoute");
 const userRoute = require("./routes/userRoute");
 const authRoute = require("./routes/authRoute");
 const courseRoutes = require("./routes/courseRoutes");
 const lessonRoutes = require("./routes/lessonRoutes");
 const quizRoute = require("./routes/quizRoute");
-// const cartRoute = require("./routes/cartRoute");
-// const commentsRoute = require("./routes/commentsRoute");
 
 const app = express();
-
 app.use(express.json());
 
-//Models
+// CORS middleware (only this, no manual headers needed)
+app.use(
+  cors({
+    origin: "https://main.d21qu0ps1927ym.amplifyapp.com",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+  })
+);
 
-//cors
-app.use(cors());
 app.use(morgan("dev"));
 
 // Connect to MongoDB
@@ -32,21 +31,18 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 // API Routes
-// app.use("/api/products", productRoute);
 app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/courses", courseRoutes);
-app.use("/api/lessons", lessonRoutes);  // Only once
+app.use("/api/lessons", lessonRoutes);
 app.use("/api/quiz", quizRoute);
-
-// app.use("/api/comments", commentsRoute);
-// app.use("/api/cart", cartRoute);
 
 // Default Route
 app.get("/", (req, res) => {
   res.send("Welcome to the Skillbase Server!");
 });
 
+// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res

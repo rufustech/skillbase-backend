@@ -19,45 +19,89 @@ const Courses = require("./models/courseModel");
 const addCourses = async () => {
   const courses = [
     {
-      title: 'Introduction to JavaScript',
-      description: 'Learn the fundamentals of JavaScript, including variables, loops, and functions. Perfect for beginners who want to start their programming journey.',
+      title: "Safety Measures in Mining",
+      description: "An introductory course on safety protocols and best practices in mining operations. Learn to protect yourself and others while working in hazardous conditions.",
+      lessons: [], // Add lesson IDs here if lessons are pre-seeded
+      quizzes: [], // Add quiz IDs here if quizzes are pre-seeded
+      studentsEnrolled: [] // Leave empty or add user IDs for enrolled students
     },
     {
-      title: 'Advanced JavaScript Concepts',
-      description: 'Dive deeper into JavaScript with advanced topics like closures, promises, async/await, and modules. Ideal for developers who want to level up their skills.',
+      title: "Hazard Identification in Mining",
+      description: "Learn how to identify and mitigate potential hazards in the mining environment to ensure safety and compliance.",
+      lessons: [],
+      quizzes: [],
+      studentsEnrolled: []
     },
     {
-      title: 'Web Development with React',
-      description: 'Learn how to build modern, dynamic web applications using React. Explore components, hooks, state management, and routing in this comprehensive course.',
+      title: "Personal Protective Equipment (PPE) in Mining",
+      description: "Understand the importance of PPE, proper usage, and maintenance to safeguard health and safety during mining activities.",
+      lessons: [],
+      quizzes: [],
+      studentsEnrolled: []
     },
     {
-      title: 'Python for Beginners',
-      description: 'Start your programming career by learning Python. This course covers everything from basic syntax to working with libraries and creating your first Python projects.',
+      title: "Emergency Preparedness in Mining",
+      description: "A comprehensive guide to preparing for emergencies, including evacuation protocols and emergency response strategies.",
+      lessons: [],
+      quizzes: [],
+      studentsEnrolled: []
     },
     {
-      title: 'Data Structures and Algorithms in Python',
-      description: 'Master data structures and algorithms in Python. Learn about lists, stacks, queues, trees, and algorithms like sorting, searching, and dynamic programming.',
+      title: "Environmental Impact and Sustainability",
+      description: "Explore the environmental effects of mining and learn sustainable practices to reduce the ecological footprint.",
+      lessons: [],
+      quizzes: [],
+      studentsEnrolled: []
     },
     {
-      title: 'Introduction to Machine Learning',
-      description: 'Understand the basics of machine learning, including supervised and unsupervised learning, regression, classification, and data preprocessing.',
+      title: "Electrical Safety in Mining",
+      description: "Understand electrical hazards in mining and how to handle them to prevent accidents and injuries.",
+      lessons: [],
+      quizzes: [],
+      studentsEnrolled: []
     },
     {
-      title: 'Introduction to HTML & CSS',
-      description: 'Learn how to create and style web pages using HTML and CSS. This course covers the basics of web development and is great for beginners.',
+      title: "Explosive Handling and Storage",
+      description: "Learn the proper procedures for handling, storing, and using explosives in mining operations.",
+      lessons: [],
+      quizzes: [],
+      studentsEnrolled: []
     },
     {
-      title: 'Building APIs with Node.js and Express',
-      description: 'Learn how to build RESTful APIs using Node.js and Express. Topics include routing, middleware, request handling, and integrating with databases.',
+      title: "Mine Site Traffic Management",
+      description: "Discover strategies for managing vehicle and equipment traffic to minimize accidents on mine sites.",
+      lessons: [],
+      quizzes: [],
+      studentsEnrolled: []
     },
     {
-      title: 'Digital Marketing 101',
-      description: 'Learn the fundamentals of digital marketing, including SEO, SEM, content marketing, social media strategies, and analytics.',
+      title: "Underground Mining Safety",
+      description: "Focus on safety measures specific to underground mining environments, including ventilation and structural integrity.",
+      lessons: [],
+      quizzes: [],
+      studentsEnrolled: []
     },
     {
-      title: 'Introduction to Cloud Computing with AWS',
-      description: 'Explore cloud computing and Amazon Web Services (AWS). Learn how to deploy applications, manage cloud infrastructure, and leverage cloud storage and compute services.',
+      title: "Surface Mining Safety",
+      description: "A detailed course on safety protocols for surface mining, including slope stability and equipment operation.",
+      lessons: [],
+      quizzes: [],
+      studentsEnrolled: []
     },
+    {
+      title: "First Aid and Health in Mining",
+      description: "Learn basic first aid techniques and health considerations critical for mining professionals.",
+      lessons: [],
+      quizzes: [],
+      studentsEnrolled: []
+    },
+    {
+      title: "Chemical Safety in Mining",
+      description: "Understand how to safely handle and store chemicals used in mining processes to avoid accidents and health hazards.",
+      lessons: [],
+      quizzes: [],
+      studentsEnrolled: []
+    }
   ];
   
 
