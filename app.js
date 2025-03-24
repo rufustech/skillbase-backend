@@ -16,7 +16,10 @@ app.use(express.json());
 // CORS middleware (only this, no manual headers needed)
 app.use(
   cors({
-    origin: "https://main.d21qu0ps1927ym.amplifyapp.com",
+    origin: [
+      "https://main.d21qu0ps1927ym.amplifyapp.com",
+      "http://localhost:3000"
+    ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
