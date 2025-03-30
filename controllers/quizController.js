@@ -5,7 +5,9 @@ const Course = require('../models/courseModel'); // Course model
 // @route POST /api/quiz
 // @access Public/Protected (adjust according to your app)
 exports.createQuiz = async (req, res) => {
-  const { title, questions, courseId } = req.body;
+  const { title, questions, course } = req.body;
+const courseId = course;
+
 
   try {
     // Create the quiz
