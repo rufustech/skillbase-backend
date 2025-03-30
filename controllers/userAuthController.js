@@ -18,7 +18,15 @@ exports.registerUser = async (req, res) => {
     const newUser = new User({ username, email, password });
     await newUser.save();
 
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({
+      message: "User registered successfully",
+      user: {
+        id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
+      },
+    });
+    
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -27,6 +35,8 @@ exports.registerUser = async (req, res) => {
 // Login User
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
+  console.log(email);
+  
 
   if (!email || !password) {
     return res.status(400).json({ message: "All fields are required" });
@@ -34,28 +44,36 @@ exports.loginUser = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
-    console.log(email);
+    console.log(user);
+    
 
     if (!user) {
-      console.log("user object", user);
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log("Test Password Match:", isMatch);
     if (!isMatch && user.email !== email) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h", // We can adjust excpiry as we see fut
+      expiresIn: "1h",
     });
 
-    res.status(200).json({ token, message: "Login successful" });
+    res.status(200).json({
+      token,
+      message: "Login successful",
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // Get Current User (Protected Route Example)
 exports.getCurrentUser = async (req, res) => {
