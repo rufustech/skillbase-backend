@@ -35,28 +35,22 @@ exports.registerUser = async (req, res) => {
 // Login User
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email);
-  
-
   if (!email || !password) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
   try {
     const user = await User.findOne({ email });
-    console.log(user);
-    
-
     if (!user) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch && user.email !== email) {
+    if (!isMatch) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
 
@@ -67,12 +61,14 @@ exports.loginUser = async (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
+        role: user.role, // Include the role in the response
       },
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 
 // Get Current User (Protected Route Example)
