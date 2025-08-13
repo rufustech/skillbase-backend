@@ -9,24 +9,24 @@ exports.protect = async (req, res, next) => {
     req.headers.authorization.startsWith("Bearer")
   ) {
     try {
-      // Extract token from header
-      token = req.headers.authorization.split(" ")[1]; // Fix: splitting the header value correctly
-      console.log(token);
+      // Extract token
+      token = req.headers.authorization.split(" ")[1];
+      console.log("Token received:", token);
 
       // Verify token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      // Add user from the payload to the request object
+      // Attach user to request
       req.user = await User.findById(decoded.id).select("-password");
 
-      next();
+      return next(); // ✅ Don't fall through
     } catch (error) {
-      console.error(error);
-      res.status(401).json({ message: "Not authorized, token failed" });
+      console.error("Token verification failed:", error.message);
+      return res.status(401).json({ message: "Not authorized, token failed" }); // ✅ Add return
     }
   }
 
   if (!token) {
-    res.status(401).json({ message: "Not authorized, no token" });
+    return res.status(401).json({ message: "Not authorized, no token" }); // ✅ Add return
   }
 };

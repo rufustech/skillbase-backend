@@ -24,4 +24,5 @@ const quizSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
+// Index for quick lookup of quizzes by course
 module.exports = mongoose.model("Quiz", quizSchema);

@@ -9,6 +9,7 @@ const authRoute = require("./routes/authRoute");
 const courseRoutes = require("./routes/courseRoutes");
 const lessonRoutes = require("./routes/lessonRoutes");
 const quizRoute = require("./routes/quizRoute");
+const certificateRoutes = require("./routes/certificateRoute");
 
 const app = express();
 app.use(express.json());
@@ -18,7 +19,7 @@ app.use(
   cors({
     origin: [
       "https://main.d21qu0ps1927ym.amplifyapp.com",
-      "http://localhost:3000"
+      "http://localhost:3000",
     ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
@@ -39,6 +40,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/courses", courseRoutes);
 app.use("/api/lessons", lessonRoutes);
 app.use("/api/quiz", quizRoute);
+app.use("/api/certificates", certificateRoutes);
 
 // Default Route
 app.get("/", (req, res) => {
