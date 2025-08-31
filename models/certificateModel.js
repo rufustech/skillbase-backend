@@ -1,4 +1,4 @@
-// Certificate Schema
+// models/certificateModel.js
 const mongoose = require("mongoose");
 
 const certificateSchema = new mongoose.Schema({
@@ -6,18 +6,41 @@ const certificateSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
-  }, // The student who earned the certificate
+  },
   course: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Course",
     required: true,
-  }, // Reference to the course the student completed
-  issuedAt: { type: Date, default: Date.now },
+  },
+  quiz: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Quiz",
+    required: true,
+  },
+  score: {
+    type: Number,
+    required: true,
+  },
+  issuedAt: { 
+    type: Date, 
+    default: Date.now 
+  },
   certificateId: {
     type: String,
     unique: true,
     required: true,
-  }, // Unique certificate ID
+  },
+  completionDate: {
+    type: Date,
+    default: Date.now,
+  },
+  expiresAt: {
+    type: Date,
+    required: true
+  }
+}, {
+  timestamps: true
 });
 
-module.exports = mongoose.model("Certificate", certificateSchema);
+const Certificate = mongoose.model("Certificate", certificateSchema);
+module.exports = Certificate;  // Changed to direct export

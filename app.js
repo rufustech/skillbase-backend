@@ -2,7 +2,19 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const morgan = require("morgan");
+const fs = require('fs');
+const path = require('path');
 require("dotenv").config();
+const { initializeCertificateCleanup } = require("./utils/schedulers");
+
+
+const uploadsDir = path.join(__dirname, 'uploads/incidents');
+if (!fs.existsSync(uploadsDir)){
+    fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+// Serve uploaded files
+
 
 const userRoute = require("./routes/userRoute");
 const authRoute = require("./routes/authRoute");
@@ -10,28 +22,32 @@ const courseRoutes = require("./routes/courseRoutes");
 const lessonRoutes = require("./routes/lessonRoutes");
 const quizRoute = require("./routes/quizRoute");
 const certificateRoutes = require("./routes/certificateRoute");
+const incidentRoutes = require("./routes/incidentRoute");
 
 const app = express();
-app.use(express.json());
 
-// CORS middleware (only this, no manual headers needed)
+// Middleware
+app.use(express.json());
 app.use(
   cors({
     origin: [
-      "https://main.d21qu0ps1927ym.amplifyapp.com",
+      "https://main.dj6hfjdxnkz2l.amplifyapp.com",
       "http://localhost:3000",
     ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
 );
-
 app.use(morgan("dev"));
 
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("Connected to MongoDB"))
+  .then(() => {
+    console.log("Connected to MongoDB");
+    // Initialize scheduler after DB connection
+    initializeCertificateCleanup();
+  })
   .catch((err) => console.error("MongoDB connection error:", err));
 
 // API Routes
@@ -40,7 +56,9 @@ app.use("/api/auth", authRoute);
 app.use("/api/courses", courseRoutes);
 app.use("/api/lessons", lessonRoutes);
 app.use("/api/quiz", quizRoute);
+app.use("/api/incidents", incidentRoutes);
 app.use("/api/certificates", certificateRoutes);
+app.use('/uploads', express.static('uploads'));
 
 // Default Route
 app.get("/", (req, res) => {
@@ -71,3 +89,5 @@ process.on("SIGINT", async () => {
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+module.exports = app;

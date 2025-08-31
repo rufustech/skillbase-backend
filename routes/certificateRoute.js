@@ -1,13 +1,18 @@
-const express = require("express");
+// routes/certificateRoute.js
+const express = require('express');
 const router = express.Router();
-const certificateController = require("../controllers/certificateController");
-const { protect } = require("../middleware/authMiddleware"); // Import the protect function specifically
+const { protect } = require('../middleware/authMiddleware');
+const {
+  createUserCertificate,
+  getUserCertificates,
+  deleteUserCertificate
+} = require('../controllers/certificateController');
 
-// Get user's certificates - Protected route
-router.get(
-  "/user-certificates",
-  protect,
-  certificateController.getUserCertificates
-);
+// Certificate routes
+router.post('/create', protect, createUserCertificate);
+router.get('/user-certificates', protect, getUserCertificates);
+router.delete('/:certificateId', protect, deleteUserCertificate);
 
 module.exports = router;
+
+
