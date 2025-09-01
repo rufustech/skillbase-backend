@@ -2,19 +2,17 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const morgan = require("morgan");
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 require("dotenv").config();
 const { initializeCertificateCleanup } = require("./utils/schedulers");
 
-
-const uploadsDir = path.join(__dirname, 'uploads/incidents');
-if (!fs.existsSync(uploadsDir)){
-    fs.mkdirSync(uploadsDir, { recursive: true });
+const uploadsDir = path.join(__dirname, "uploads/incidents");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
 // Serve uploaded files
-
 
 const userRoute = require("./routes/userRoute");
 const authRoute = require("./routes/authRoute");
@@ -31,8 +29,12 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      "https://main.dj6hfjdxnkz2l.amplifyapp.com",
+      "https://safety.co.zw",
+      "https://www.safety.co.zw", // Amplify
       "http://localhost:3000",
+      "http://127.0.0.1:3000",
+      "http://localhost:5173",
+      "http://127.0.0.1:5173",
     ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
@@ -58,7 +60,7 @@ app.use("/api/lessons", lessonRoutes);
 app.use("/api/quiz", quizRoute);
 app.use("/api/incidents", incidentRoutes);
 app.use("/api/certificates", certificateRoutes);
-app.use('/uploads', express.static('uploads'));
+app.use("/uploads", express.static("uploads"));
 
 // Default Route
 app.get("/", (req, res) => {
